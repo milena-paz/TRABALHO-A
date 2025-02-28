@@ -1,7 +1,6 @@
 ##LENDO E ORGANIZANDO OS DADOS
 #GLB.Ts+dSST.csv foi baixado na URL abaixo
-# 
-library(dplyr)
+#
 raws <- read.csv("GLB.Ts+dSST.csv", na="***",skip=1) |>
         subset(select=1:13)
 #vamos usar os nomes dos meses em português
@@ -15,9 +14,9 @@ rownames(temps) <- NULL
 
 
 #começaremos criando um grafico estático 
-library(gganimate)
+library(gganimate) #carrega o ggplot2 automaticamente
 
-#### V1 ####
+#### Versão inicial ####
 temps|> ggplot(aes(x=Mes,y=temp,group=Ano,color=Ano)) +
   geom_line(show.legend = F) +
   coord_radial()
@@ -26,7 +25,7 @@ temps|> ggplot(aes(x=Mes,y=temp,group=Ano,color=Ano)) +
 # 2. a posicao dos meses deve começar no meio-dia
 # 3. as linhas nao se conectam
 
-#PROBLEMA 1:
+# PROBLEMA 1: ----
 #para resolver isso teremos que organizar os meses na ordem certa
 #um método seria transformar a variavel Mes em FATOR:
 temps$Mes<- factor(temps$Mes, levels=meses)
@@ -37,23 +36,23 @@ ggplot(temps, aes(x=Mes,y=temp,group=Ano,color=Ano)) +
   coord_radial()
 #resolvido!
 
-#PROBLEMA 2:
+# PROBLEMA 2: ----
 #Para resolver isso é só usar um argumento de coord_radial(start)
 ggplot(temps,aes(x=Mes,y=temp,group=Ano,color=Ano)) +
   geom_line(show.legend = F) +
   coord_radial(start=pi/6)
 #ta meio ruim de ler porque ficou sobreposto, depois mexemos nisso
 
-#PROBLEMA 3:
+# PROBLEMA 3: ----
 # aqui vai precisar de uma gambiarra; porque queremos que o valor de dezembro
 #conecte com o janeiro do próximo ano, para que seja uma linha contínua
-proxJan <- filter(temps,Mes == "Jan")
+proxJan <- dplyr::filter(temps,Mes == "Jan")
 proxJan$Ano <- proxJan$Ano - 1
 proxJan$Ano[1]<-NA
 proxJan$Mes <- "proxJan"
 t.dados <-rbind(temps,proxJan)
 t.dados$numMes <- as.numeric(t.dados$Mes)
-#ai a gente vai ter q fazer manualmente os rotulos e a escala x_x
+#ai a gente vai ter q fazer manualmente os rotulos e a escala
 t.dados |> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) + #mudança no aes(x=)
   geom_line(show.legend = F) +
   scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+
@@ -61,8 +60,36 @@ t.dados |> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) + #mudança no aes(x
   coord_radial(start=pi/6)
 #ok, agora ta tudo conectado! fonte da gambiarra: https://youtu.be/NYF9ySYSvwQ
 
+#### Versão melhorada ####
+t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
+  geom_line(show.legend = F,size=.8) + #linhas mais grossas
+  scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+ 
+  scale_y_continuous(limits = c(-2, 2.7),expand = c(0,0)) +
+  coord_radial(start=pi/6) +
+  #mudando as cores para uma paleta divergente e colorblind-friendly
+  #do pacote rColorBrewer
+  scale_color_distiller(palette="RdYlBu") + 
+  #desenha linhas indicando a escala (1,5 e 2 graus celsius)
+  geom_hline(yintercept = c(2,1.5), color="white")+
+  #tampa um pouquinho da linha para o texto aparecer
+  annotate("segment", x = c(11.7,11.7), xend = c(12.3,12.3), y=c(1.5,2), yend =c(1.5,2),colour = "black",size=2) +
+  #texto para enumerar a escala
+  annotate("text",x=12,y=c(1.5,2),label=c("1.5°C","2°C"),color="white")+
+  #remove os nomes dos eixos (nao faz sentido ter) e aqueles tracinhos da escala
+  theme(
+    panel.background = element_rect(fill="black"),
+    plot.background = element_rect(fill="#6C708F",color="#6C708F"),
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(color="white",size=20),
+    axis.text.y = element_blank(),
+    axis.title.x= element_blank(),
+    axis.title.y = element_blank()
+  )
 
-#daqui em diante é só mudar a estética do plot para que fique melhor de visualizar:
+
+#daqui em diante é só animar:
+#### Versão final e animada ####
 bleb<-t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
   geom_line(show.legend = F,size=.8) +
   scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+
@@ -72,11 +99,12 @@ bleb<-t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
   geom_hline(yintercept = c(2,1.5), color="white")+
   annotate("segment", x = c(11.7,11.7), xend = c(12.3,12.3), y=c(1.5,2), yend =c(1.5,2),colour = "grey5",size=2) +
   annotate("text",x=12,y=c(1.5,2),label=c("1.5°C","2°C"),color="white")+
+  #escreve o ano no centro do vão que deixei no centro lá no PROBLEMA 3
   geom_label(aes(x = 12, y=-2, label = Ano),label.size=0, label.padding=unit(10,"pt"),
              size=6,color="white",fill="grey5")+
   theme(
     panel.background = element_rect(fill="grey5", size=1),
-    plot.background = element_rect(fill = "grey50",color="grey50"),
+    plot.background = element_rect(fill = "#6C708F",color="#6C708F"),
     panel.grid = element_blank(),
     axis.ticks = element_blank(), 
     axis.text.x = element_text(color="white",size=20),
@@ -86,4 +114,4 @@ bleb<-t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
   )+
   transition_manual(frames = Ano, cumulative = T)
 
-anim_save("espiral.gif",animation=animate(bleb,height = 5, width = 5, units = "in", res = 250))
+anim_save("espiral2.gif",animation=animate(bleb,height = 5, width = 5, units = "in", res = 250))
