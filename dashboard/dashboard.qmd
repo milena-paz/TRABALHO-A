@@ -1,0 +1,19 @@
+---
+title: "Dashboard"
+format:
+  dashboard:
+    orientation: columns
+    nav-buttons: github
+self-contained: true
+editor: visual
+---
+## Column {width=60%}
+::: {.card title="Espiral Climática"}
+Texto explicando tudo sobre a espiral climatica e dando todo o contexto
+ certinho dela
+:::
+ 
+
+## Column {width="40%"}
+
+![Espiral climática (1880-2025)](images/espiral.gif){#fig-espiral width="500"}
