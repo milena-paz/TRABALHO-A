@@ -57,31 +57,36 @@ t.dados |> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) + #mudança no aes(x
   geom_line(show.legend = F) +
   scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+
   scale_y_continuous(limits = c(-2, 2.7),expand = c(0,0)) + #aproveitando pra deixar um espaço no centro
-  coord_radial(start=pi/6)
+  coord_radial()
+#com essa mudança, o argumento start nao e necessario para que o plot fique centrado na posicao meio-dia
 #ok, agora ta tudo conectado! fonte da gambiarra: https://youtu.be/NYF9ySYSvwQ
 
 #### Versão melhorada ####
+
+# Escala
+escala<- data.frame(x=c(1.55,1.37,1.35),xend=c(12.45,12.63,12.65),y=c(0,1.5,2),yend=c(0,1.5,2))
+##
 t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
-  geom_line(show.legend = F,size=.8) + #linhas mais grossas
+  geom_line(show.legend = F,linewidth=0.8) + #linhas mais grossas
   scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+ 
   scale_y_continuous(limits = c(-2, 2.7),expand = c(0,0)) +
-  coord_radial(start=pi/6) +
+  coord_radial() +
   #mudando as cores para uma paleta divergente e colorblind-friendly
   #do pacote rColorBrewer
   scale_color_distiller(palette="RdYlBu") + 
-  #desenha linhas indicando a escala (1,5 e 2 graus celsius)
-  geom_hline(yintercept = c(2,1.5), color="white")+
-  #tampa um pouquinho da linha para o texto aparecer
-  annotate("segment", x = c(11.7,11.7), xend = c(12.3,12.3), y=c(1.5,2), yend =c(1.5,2),colour = "black",size=2) +
+  #desenha linhas indicando a escala (0, 1.5 e 2 graus celsius)
+  geom_segment(data=escala,aes(x=x,xend=xend,y=y,yend=yend),
+               color=c("slateblue4","aliceblue","aliceblue"),inherit.aes = F)+
   #texto para enumerar a escala
-  annotate("text",x=12,y=c(1.5,2),label=c("1.5°C","2°C"),color="white")+
+  annotate("text",x=1,y=c(1.5,2,0),label=c("1.5°C","2°C","0°C"),
+           color=c("aliceblue","aliceblue","slateblue4"), size=4.5)+
   #remove os nomes dos eixos (nao faz sentido ter) e aqueles tracinhos da escala
   theme(
     panel.background = element_rect(fill="black"),
     plot.background = element_rect(fill="#6C708F",color="#6C708F"),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
-    axis.text.x = element_text(color="white",size=20),
+    axis.text.x = element_text(color="white",size=18),
     axis.text.y = element_blank(),
     axis.title.x= element_blank(),
     axis.title.y = element_blank()
@@ -91,27 +96,28 @@ t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
 #daqui em diante é só animar:
 #### Versão final e animada ####
 bleb<-t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
-  geom_line(show.legend = F,size=.8) +
+  geom_line(show.legend = F,linewidth=.8) +
   scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+
   scale_y_continuous(limits = c(-2, 2.7),expand = c(0,0)) +
-  coord_radial(start=pi/6) +
+  coord_radial() +
   scale_color_distiller(palette="RdYlBu") +
-  geom_hline(yintercept = c(2,1.5), color="white")+
-  annotate("segment", x = c(11.7,11.7), xend = c(12.3,12.3), y=c(1.5,2), yend =c(1.5,2),colour = "grey5",size=2) +
-  annotate("text",x=12,y=c(1.5,2),label=c("1.5°C","2°C"),color="white")+
+  geom_segment(data=escala,aes(x=x,xend=xend,y=y,yend=yend),
+               color=c("slateblue4","aliceblue","aliceblue"),inherit.aes = F)+
+  annotate("text",x=1,y=c(1.5,2,0),label=c("1.5°C","2°C","0°C"),
+           color=c("aliceblue","aliceblue","slateblue4"), size=4.5)+
   #escreve o ano no centro do vão que deixei no centro lá no PROBLEMA 3
   geom_label(aes(x = 12, y=-2, label = Ano),label.size=0, label.padding=unit(10,"pt"),
              size=6,color="white",fill="grey5")+
   theme(
-    panel.background = element_rect(fill="grey5", size=1),
+    panel.background = element_rect(fill="grey5"),
     plot.background = element_rect(fill = "#6C708F",color="#6C708F"),
     panel.grid = element_blank(),
     axis.ticks = element_blank(), 
-    axis.text.x = element_text(color="white",size=20),
+    axis.text.x = element_text(color="white",size=18),
     axis.text.y = element_blank(),
     axis.title.x= element_blank(),
     axis.title.y = element_blank()
   )+
   transition_manual(frames = Ano, cumulative = T)
 
-anim_save("espiral2.gif",animation=animate(bleb,height = 5, width = 5, units = "in", res = 250))
+anim_save("espiral2.gif",animation=animate(bleb,height = 5, width = 5, units = "in", res = 250,bg = 'transparent'))
