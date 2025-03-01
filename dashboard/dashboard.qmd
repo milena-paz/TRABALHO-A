@@ -1,19 +1,49 @@
 ---
-title: "Dashboard"
+title: "Visualização Animada do Aquecimento Global"
+lang: "pt-BR"
+author: "Milena Paz, Kailany Aline"
+mainfont: Arial
+theme:
+ light: "flatly"
+ dark: "darkly"
 format:
   dashboard:
     orientation: columns
-    nav-buttons: github
+
 self-contained: true
-editor: visual
+csl: abnt.csl
+crossref:
+  subref-labels: roman i
+nav-buttons: github
+bibliography: references.bib
 ---
+
+# Espiral Climática
 
 ## Column {width="60%"}
 
-::: {.card title="Espiral Climática"}
-Texto explicando tudo sobre a espiral climatica e dando todo o contexto certinho dela
+::: {.card title="Aquecimento global"}
+  Desde a segunda e terceira revoluções industriais, a velocidade e volume de produção tem aumentado significativamente. Porém, não foi apenas isso que tem se acelerado nas últimas décadas: junto ao aumento de produção industrial veio também grande emissão de gases-estufa. Gases-estufa são aqueles como metano e dióxido de carbono, que têm a capacidade de, em grandes quantidades, reter o calor do sol na atmosfera.
+
+  O efeito estufa é natural: sem ele, o planeta Terra seria um deserto gelado. Porém, antes da humanidade acentuá-lo artificialmente (seja por emissões por combustíveis fósseis, gado, dejetos industriais), o clima era diferente, mais estável. Nos últimos anos o planeta está passando por uma mudança climática chamada aquecimento global, que afeta direta e indiretamente, a fauna e flora. Por exemplo, no Peru, foi conduzido um estudo [@monge-rodríguez2022a] entrevistando os povos andeanos sobre o derretimento dos glacieres e como eles os afetavam. Grande maioria dos entrevistados já havia presenciado uma ou mais avalanches. Outros pesquisadores, [@article], que consultaram fazendeiros na Bolívia, Equador e Peru, identificaram a forma que as mudanças climáticas e degelo afetam as atividades dos agricultores e enfatizaram seus métodos de adaptação contra esses efeitos negativos.
+
+&nbsp; A @fig-espiral1 representa as mudanças de temperatura mundial entre os janeiros de 1880 e 2025, em graus Celsius. Os dados usados para a visualização, disponibilizados pela NASA, apresentam os desvios de temperatura global(em relação às médias entre 1951 e 1980), organizados por ano e medidos a cada mês. Devemos destacar que os anos 2023 e 2024 se distanciam da massa central de desvios de temperatura: são anos especialmente mais quentes.
 :::
 
-## Column {width="40%"}
+## Column {.tabset width="40%"}
 
-![Espiral climática (1880-2025)](images/espiral2.gif){#fig-espiral width="500"}
+::: {.card title="Gráfico Animado"}
+![](images/espiral2.gif){#fig-espiral1 width="500"}
+:::
+
+::: {.card title="Gráfico Estático"}
+![](images/espiral.png){#fig-espiral2 width="500"}
+:::
+
+# Dados
+[Download (Dados Crus)](https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv){.btn .btn-outline-primary .btn role="button"} 
+```{r}
+read.csv("GLB.Ts+dSST.csv", na="***",skip=1) |>
+        subset(select=1:13)
+```
+

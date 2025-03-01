@@ -69,7 +69,7 @@ escala<- data.frame(x=c(1.55,1.37,1.35),xend=c(12.45,12.63,12.65),y=c(0,1.5,2),y
 t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
   geom_line(show.legend = F,linewidth=0.8) + #linhas mais grossas
   scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+ 
-  scale_y_continuous(limits = c(-2, 2.7),expand = c(0,0)) +
+  scale_y_continuous(limits = c(-1.5, 2.7),expand = c(0,0)) +
   coord_radial() +
   #mudando as cores para uma paleta divergente e colorblind-friendly
   #do pacote rColorBrewer
@@ -91,7 +91,8 @@ t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
     axis.title.x= element_blank(),
     axis.title.y = element_blank()
   )
-
+#salva a forma estatica
+ggsave("espiral.png",width=5,height=5,units="in",dpi=250)
 
 #daqui em diante é só animar:
 #### Versão final e animada ####

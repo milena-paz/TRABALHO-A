@@ -1,0 +1,65 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Visualização Animada do Aquecimento Global\"\n",
+        "theme:\n",
+        " light: \"flatly\"\n",
+        " dark: \"darkly\"\n",
+        "format:\n",
+        "  dashboard:\n",
+        "    orientation: columns\n",
+        "\n",
+        "self-contained: true\n",
+        "csl: abnt.csl\n",
+        "crossref:\n",
+        "  subref-labels: roman i\n",
+        "bibliography: references.bib\n",
+        "---\n",
+        "\n",
+        "```{css}\n",
+        "#| echo: false\n",
+        "p {\n",
+        "  text-align: justify\n",
+        "}\n",
+        "```\n",
+        "\n",
+        "\n",
+        "# Espiral Climática\n",
+        "\n",
+        "## Column {width=\"60%\"}\n",
+        "\n",
+        "::: {.card title=\"Aquecimento global\"}\n",
+        "&nbsp; Desde a segunda e terceira revoluções industriais, a velocidade de produção tem aumentado significativamente. Porém, não foi apenas isso que tem se acelerado nas últimas décadas: junto ao aumento de produção industrial veio também grande emissão de gases-estufa. Gases-estufa são aqueles como metano e dióxido de carbono, que têm a capacidade de, em grandes quantidades, reter o calor do sol na atmosfera.\n",
+        "\n",
+        "&nbsp; O efeito estufa é natural: sem ele, o planeta Terra seria um deserto gelado. Porém, antes da humanidade acentuá-lo artificialmente (seja por emissões por combustíveis fósseis, gado, dejetos industriais), o clima era diferente, mais estável. Nos últimos anos o planeta está passando por uma mudança climática chamada aquecimento global, que afeta direta e indiretamente, a fauna e flora. Por exemplo, no Peru, foi conduzido um estudo [@monge-rodríguez2022a] entrevistando os povos andeanos sobre o derretimento dos glacieres e como eles os afetavam. Grande maioria dos entrevistados já havia presenciado uma ou mais avalanches. De acordo com outros pesquisadores, [@article], que consultaram fazendeiros na Bolívia, Equador e Peru, identificaram que as mudanças climáticas e degelo afetam as atividades dos agricultores, com ênfase em seus métodos de adaptação contra esses efeitos negativos\n",
+        ":::\n",
+        "\n",
+        "## Column {.tabset width=\"40%\"}\n",
+        "\n",
+        "::: {.card title=\"Animado\"}\n",
+        "![](images/espiral2.gif){#fig-espiral1 width=\"500\"}\n",
+        ":::\n",
+        "\n",
+        "::: {.card title=\"Estático\"}\n",
+        "![](images/espiral.png){#fig-espiral2 width=\"500\"}\n",
+        ":::\n",
+        "\n",
+        "# Dados"
+      ],
+      "id": "77fc5c47"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
