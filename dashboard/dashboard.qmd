@@ -9,41 +9,116 @@ theme:
 format:
   dashboard:
     orientation: columns
-
 self-contained: true
 csl: abnt.csl
 crossref:
   subref-labels: roman i
 nav-buttons: github
 bibliography: references.bib
+suppress-bibliography: false
 ---
 
-# Espiral Climática
+# Espiral Climática {#sec-main}
 
 ## Column {width="60%"}
 
 ::: {.card title="Aquecimento global"}
-  Desde a segunda e terceira revoluções industriais, a velocidade e volume de produção tem aumentado significativamente. Porém, não foi apenas isso que tem se acelerado nas últimas décadas: junto ao aumento de produção industrial veio também grande emissão de gases-estufa. Gases-estufa são aqueles como metano e dióxido de carbono, que têm a capacidade de, em grandes quantidades, reter o calor do sol na atmosfera.
+<div style="text-align: justify">
 
-  O efeito estufa é natural: sem ele, o planeta Terra seria um deserto gelado. Porém, antes da humanidade acentuá-lo artificialmente (seja por emissões por combustíveis fósseis, gado, dejetos industriais), o clima era diferente, mais estável. Nos últimos anos o planeta está passando por uma mudança climática chamada aquecimento global, que afeta direta e indiretamente, a fauna e flora. Por exemplo, no Peru, foi conduzido um estudo [@monge-rodríguez2022a] entrevistando os povos andeanos sobre o derretimento dos glacieres e como eles os afetavam. Grande maioria dos entrevistados já havia presenciado uma ou mais avalanches. Outros pesquisadores, [@article], que consultaram fazendeiros na Bolívia, Equador e Peru, identificaram a forma que as mudanças climáticas e degelo afetam as atividades dos agricultores e enfatizaram seus métodos de adaptação contra esses efeitos negativos.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Desde a segunda e terceira revoluções industriais, a velocidade e volume de produção tem aumentado significativamente. Porém, não foi apenas isso que tem se acelerado nas últimas décadas: em decorrência do aumento de produção industrial houve crescimento da emissão de gases-estufa — aqueles como metano e dióxido de carbono, que têm a capacidade de, em grandes quantidades, reter o calor do sol na atmosfera.
 
-&nbsp; A @fig-espiral1 representa as mudanças de temperatura mundial entre os janeiros de 1880 e 2025, em graus Celsius. Os dados usados para a visualização, disponibilizados pela NASA, apresentam os desvios de temperatura global(em relação às médias entre 1951 e 1980), organizados por ano e medidos a cada mês. Devemos destacar que os anos 2023 e 2024 se distanciam da massa central de desvios de temperatura: são anos especialmente mais quentes.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; O efeito estufa é um fenômeno natural: sem ele, o planeta Terra seria um deserto gelado. Porém, devido ao acentuamento artificial gerado pela humanidade (seja por emissões por combustíveis fósseis, gado, dejetos industriais), a instabilidade climática é cada vez mais notável. Nos últimos 50 anos o planeta tem passado por uma mudança climática chamada aquecimento global de forma acelerada, que afeta direta e indiretamente a fauna e flora. Entre esses efeitos, temos o aumento do nível do mar, migração ou até extinção de espécies sensíveis às condições climáticas e mais avalanches em regiões montanhosas. Por exemplo, no Peru, foi conduzido um estudo [-@monge-rodríguez2022a] entrevistando os povos andeanos sobre o derretimento dos glacieres e como eles os afetavam. Grande maioria dos entrevistados já havia presenciado uma ou mais avalanches. Outros pesquisadores, [@article], que consultaram fazendeiros na Bolívia, Equador e Peru, identificaram a forma que as mudanças climáticas e degelo afetam as atividades dos agricultores e enfatizaram seus métodos de adaptação contra esses efeitos ne
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; A @fig-espiral1 (e @fig-espiral2) representa visualmente as mudanças de temperatura mundial entre os janeiros de 1880 e 2025, em graus Celsius. Os dados (@sec-dados) usados para a visualização, disponibilizados pela NASA, apresentam os desvios de temperatura global (em relação às médias entre 1951 e 1980), organizados por ano e medidos a cada mês. Devemos destacar que os anos 2023 e 2024 se distanciam da massa central de desvios de temperatura: são anos especialmente mais quentes. 
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Os gráficos foram criados usando o pacote ggplot2[-@ggplot2] e a animação feita com gganimate[-@gganimate] no R. A espiral climática foi grandemente inspirada pela visualização feita por Ed Hawkins [-@TheClimateSpiralDemonstratesthePowerofSharingCreativeIdeas], que se tornou muito popular por um conjunto de motivos, mas principalmente pela sua combinação de criatividade, design e *storytelling*.
+
+ </div>
+:::
+
+
+ 
+##  {.sidebar width="300px"}
+
+#### Referências
+
+::: {#refs}
 :::
 
 ## Column {.tabset width="40%"}
 
 ::: {.card title="Gráfico Animado"}
-![](images/espiral2.gif){#fig-espiral1 width="500"}
+```{r}
+#| padding: 0px
+```
+
+![Espiral climática animada](images/espiral2.gif){#fig-espiral1 fig-align="center"}
 :::
 
 ::: {.card title="Gráfico Estático"}
-![](images/espiral.png){#fig-espiral2 width="500"}
+```{r fig-espiral2, echo=FALSE}
+#| message: false
+#| warning: false
+#| fig-height: 5
+#| fig-width: 5
+#| fig-cap: "Espiral climática estática"
+raws <- read.csv("GLB.Ts+dSST.csv", na="***",skip=1) |>
+        subset(select=1:13)
+meses<-c("Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago",
+         "Set","Out","Nov","Dez")
+temps<- data.frame(Ano=rep(raws$Year, times=12),
+              Mes=rep(meses, each=146),
+              temp=unlist(raws[-1]))
+rownames(temps) <- NULL
+temps$Mes<- factor(temps$Mes, levels=meses)
+proxJan <- dplyr::filter(temps,Mes == "Jan")
+proxJan$Ano <- proxJan$Ano - 1
+proxJan$Ano[1]<-NA
+proxJan$Mes <- "proxJan"
+t.dados <-rbind(temps,proxJan)
+t.dados$numMes <- as.numeric(t.dados$Mes)
+library(gganimate)
+escala<- data.frame(x=c(1.55,1.37,1.35),xend=c(12.45,12.63,12.65),y=c(0,1.5,2),yend=c(0,1.5,2))
+t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
+  geom_line(show.legend = F,linewidth=0.8) + #linhas mais grossas
+  scale_x_continuous(breaks=1:12,labels=meses,expand = c(0,0))+ 
+  scale_y_continuous(limits = c(-1.5, 2.7),expand = c(0,0)) +
+  coord_radial() +
+  #mudando as cores para uma paleta divergente e colorblind-friendly
+  #do pacote rColorBrewer
+  scale_color_distiller(palette="RdYlBu") + 
+  #desenha linhas indicando a escala (0, 1.5 e 2 graus celsius)
+  geom_segment(data=escala,aes(x=x,xend=xend,y=y,yend=yend),
+               color=c("slateblue4","aliceblue","aliceblue"),inherit.aes = F)+
+  #texto para enumerar a escala
+  annotate("text",x=1,y=c(1.5,2,0),label=c("1.5°C","2°C","0°C"),
+           color=c("aliceblue","aliceblue","slateblue4"), size=4.5)+
+  #remove os nomes dos eixos (nao faz sentido ter) e aqueles tracinhos da escala
+  theme(
+    panel.background = element_rect(fill="black"),
+    plot.background = element_rect(fill="#6C708F",color="#6C708F"),
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(color="white",size=18),
+    axis.text.y = element_blank(),
+    axis.title.x= element_blank(),
+    axis.title.y = element_blank()
+  )
+```
 :::
 
-# Dados
-[Download (Dados Crus)](https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv){.btn .btn-outline-primary .btn role="button"} 
-```{r}
-read.csv("GLB.Ts+dSST.csv", na="***",skip=1) |>
-        subset(select=1:13)
-```
+# Dados {#sec-dados}
 
+## Column
+
+  Os dados foram obtidos no [*site* da NASA](https://science.nasa.gov/resource/video-climate-spiral-1880-2022/), onde se encontra a visualização que inspirou as @fig-espiral1 e @fig-espiral2.
+
+[Download (Dados Crus)](https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv){.btn .btn-outline-primary .btn role="button"}
+
+## Column
+
+```{r}
+#| label: tbl-dados
+#| tbl-cap: "Dados da NASA (head)"
+head(raws,10)
+```

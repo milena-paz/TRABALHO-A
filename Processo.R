@@ -121,4 +121,9 @@ bleb<-t.dados|> ggplot(aes(x=numMes,y=temp,group=Ano,color=Ano)) +
   )+
   transition_manual(frames = Ano, cumulative = T)
 
-anim_save("espiral2.gif",animation=animate(bleb,height = 5, width = 5, units = "in", res = 250,bg = 'transparent'))
+anim_save("espiral2.gif",animation=animate(bleb,height = 5, width = 5, units = "in", res = 250,bg = 'transparent',nframes=146))
+
+## Como a animação demora MUITO para renderizar, fazer isso em tempo real se torna inviável com a tecnologia usada
+## Até onde vi, isso parece ser causado principalmente pelo geom_label() indicando o ano do frame atual
+## Uma possível solução seria simplesmente não mostrar o ano atual no gráfico, mas isso retira uma importante
+## informação da animação...
