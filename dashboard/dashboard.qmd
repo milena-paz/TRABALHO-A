@@ -16,6 +16,7 @@ crossref:
 nav-buttons: github
 bibliography: references.bib
 suppress-bibliography: false
+expandable: false
 ---
 
 # Espiral Climática {#sec-main}
@@ -27,11 +28,11 @@ suppress-bibliography: false
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Desde a segunda e terceira revoluções industriais, a velocidade e volume de produção tem aumentado significativamente. Porém, não foi apenas isso que tem se acelerado nas últimas décadas: em decorrência do aumento de produção industrial houve crescimento da emissão de gases-estufa — aqueles como metano e dióxido de carbono, que têm a capacidade de, em grandes quantidades, reter o calor do sol na atmosfera.
 
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; O efeito estufa é um fenômeno natural: sem ele, o planeta Terra seria um deserto gelado. Porém, devido ao acentuamento artificial gerado pela humanidade (seja por emissões por combustíveis fósseis, gado, dejetos industriais), a instabilidade climática é cada vez mais notável. Nos últimos 50 anos o planeta tem passado por uma mudança climática chamada aquecimento global de forma acelerada, que afeta direta e indiretamente a fauna e flora. Entre esses efeitos, temos o aumento do nível do mar, migração ou até extinção de espécies sensíveis às condições climáticas e mais avalanches em regiões montanhosas. Por exemplo, no Peru, foi conduzido um estudo [-@monge-rodríguez2022a] entrevistando os povos andeanos sobre o derretimento dos glacieres e como eles os afetavam. Grande maioria dos entrevistados já havia presenciado uma ou mais avalanches. Outros pesquisadores, [@article], que consultaram fazendeiros na Bolívia, Equador e Peru, identificaram a forma que as mudanças climáticas e degelo afetam as atividades dos agricultores e enfatizaram seus métodos de adaptação contra esses efeitos ne
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; O efeito estufa é um fenômeno natural: sem ele, o planeta Terra seria um deserto gelado. Porém, devido ao acentuamento artificial gerado pela humanidade (seja por emissões por combustíveis fósseis, gado, dejetos industriais), a instabilidade climática é cada vez mais notável. Nos últimos 50 anos o planeta tem passado por uma mudança climática chamada aquecimento global de forma acelerada, que afeta direta e indiretamente a fauna e flora. Entre esses efeitos, temos o aumento do nível do mar, migração ou até extinção de espécies sensíveis às condições climáticas e mais avalanches em regiões montanhosas. Por exemplo, no Peru, foi conduzido um estudo [-@monge-rodríguez2022a] entrevistando os povos andeanos sobre o derretimento dos glacieres e como eles os afetavam. Grande maioria dos entrevistados já havia presenciado uma ou mais avalanches. Outros pesquisadores, [@article], que consultaram fazendeiros na Bolívia, Equador e Peru, identificaram a forma que as mudanças climáticas e degelo afetam as atividades dos agricultores e enfatizaram seus métodos de adaptação contra esses efeitos negativos.
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; A @fig-espiral1 (e @fig-espiral2) representa visualmente as mudanças de temperatura mundial entre os janeiros de 1880 e 2025, em graus Celsius. Os dados (@sec-dados) usados para a visualização, disponibilizados pela NASA, apresentam os desvios de temperatura global (em relação às médias entre 1951 e 1980), organizados por ano e medidos a cada mês. Devemos destacar que os anos 2023 e 2024 se distanciam da massa central de desvios de temperatura: são anos especialmente mais quentes. 
 
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Os gráficos foram criados usando o pacote ggplot2[-@ggplot2] e a animação feita com gganimate[-@gganimate] no R. A espiral climática foi grandemente inspirada pela visualização feita por Ed Hawkins [-@TheClimateSpiralDemonstratesthePowerofSharingCreativeIdeas], que se tornou muito popular por um conjunto de motivos, mas principalmente pela sua combinação de criatividade, design e *storytelling*.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Os gráficos foram criados usando o pacote ggplot2[-@ggplot2] e a animação feita com gganimate[-@gganimate] no R. A espiral climática foi grandemente inspirada pela visualização feita por Ed Hawkins [-@TheClimateSpiralDemonstratesthePowerofSharingCreativeIdeas], que se tornou muito popular por um conjunto de motivos, principalmente pela sua combinação de design criativo e *storytelling*.
 
  </div>
 :::
@@ -40,7 +41,7 @@ suppress-bibliography: false
  
 ##  {.sidebar width="300px"}
 
-#### Referências
+#### Referências Bibliográficas
 
 ::: {#refs}
 :::
